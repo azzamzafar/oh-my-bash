@@ -28,11 +28,13 @@ _omb_theme_PROMPT_COMMAND() {
   if [[ $exit_status -eq 0 ]]; then PROMPT_END=$PROMPT_END_CLEAN
     else PROMPT_END=$PROMPT_END_DIRTY
   fi
+  local python_venv; _omb_prompt_get_python_venv
+  python_venv=${_omb_prompt_bold_green}$python_venv
   # Save history
   #history -a
   #history -c
   #history -r
-  PS1="($(clock_prompt)) $(scm_char) [${_omb_prompt_navy}\u${_omb_prompt_reset_color}@${_omb_prompt_green}\H${_omb_prompt_reset_color}] ${_omb_prompt_olive}\w${_omb_prompt_reset_color}$(scm_prompt_info) ${_omb_prompt_reset_color}\n$(prompt_end) "
+  PS1="($(clock_prompt)) $(scm_char)[${_omb_prompt_navy}\u${_omb_prompt_reset_color}@${_omb_prompt_green}\H${_omb_prompt_reset_color}]$python_venv ${_omb_prompt_olive}\w${_omb_prompt_reset_color}$(scm_prompt_info) ${_omb_prompt_reset_color}\n$(prompt_end) "
   PS2='> '
   PS4='+ '
 }
