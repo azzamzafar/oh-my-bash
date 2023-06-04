@@ -71,3 +71,5 @@ alias gitchanged="git diff --name-only"
 alias doc='cd ~/Documents/'
 alias localapps='cd ~/.local/share/applications'
 alias newpy='/usr/local/bin/python3.11'          #python3.11 user install 
+#   cpuHogs:  Find CPU hogs
+alias cpu_hogs='ps wwaxr -o pid,stat,%cpu,time,command | head -10'

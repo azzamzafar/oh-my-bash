@@ -77,11 +77,11 @@ CHRUBY_THEME_PROMPT_SUFFIX='|'
 # OMB_PROMPT_CONDAENV_FORMAT=' |%s|'
 # OMB_PROMPT_CONDAENV_USE_BASENAME=true
 # OMB_PROMPT_PYTHON_VERSION_FORMAT=' |%s|'
-# OMB_PROMPT_SHOW_PYTHON_VENV=true
+OMB_PROMPT_SHOW_PYTHON_VENV=true
 
 # deprecate
-VIRTUALENV_THEME_PROMPT_PREFIX=' |'
-VIRTUALENV_THEME_PROMPT_SUFFIX='|'
+PYTHON_VENV_THEME_PROMPT_PREFIX=' |'
+PYTHON_VENV_THEME_PROMPT_SUFFIX='|'
 CONDAENV_THEME_PROMPT_PREFIX=' |'
 CONDAENV_THEME_PROMPT_SUFFIX='|'
 PYTHON_THEME_PROMPT_PREFIX=' |'
@@ -468,19 +468,19 @@ function _omb_prompt_get_condaenv {
 }
 
 function _omb_prompt_get_python_version {
-  python_version=$(python --version 2>&1 | command awk '{print "py-"$2;}')
+  _omb_prompt_format python_version "$python_version" OMB_PROMPT_PYTHON_VERSION:PYTHON_THEME_PROMPTpython_version=$(python --version 2>&1 | command awk '{print "py-"$2;}')
   [[ $python_version ]] || return 1
-  _omb_prompt_format python_version "$python_version" OMB_PROMPT_PYTHON_VERSION:PYTHON_THEME_PROMPT
+  _omb_prompt_format python_venv "$python_ver" OMB_PROMPT_PYTHON_VERSION:PYTHON_THEME_PROMPT
 }
 
 function _omb_prompt_get_python_venv {
   python_venv=
   [[ ${OMB_PROMPT_SHOW_PYTHON_VENV-} == true ]] || return 1
-  local virtualenv condaenv
-  _omb_prompt_get_virtualenv
-  _omb_prompt_get_condaenv
-  python_venv=$virtualenv$condaenv
-  [[ $python_venv ]]
+  if [[ $(which python3 | rev | cut -d'/' -f3 | rev) == 'usr' ]]; then
+	  return 1
+  fi
+  python_venv=$(which python3 | rev | cut -d'/' -f3 | rev)
+  _omb_prompt_format python_venv "$python_venv" OMB_PROMPT_PYTHON_VENV:PYTHON_VENV_THEME_PROMPT
 }
 function _omb_prompt_get_python_env {
   local virtualenv condaenv python_version

@@ -30,7 +30,6 @@ function _omb_theme_PROMPT_COMMAND {
   fi
   local python_venv; _omb_prompt_get_python_venv
   python_venv=${_omb_prompt_bold_green}$python_venv
-  # Save history
   #history -a
   #history -c
   #history -r
